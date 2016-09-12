@@ -19,3 +19,9 @@ class Student(models.Model):
                                 related_name='student')
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     ta_courses = models.ManyToManyField(Course)
+
+class Stream(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    streamer = models.ForeignKey(Student, on_delete=models.CASCADE)
+    stream_key = models.CharField(max_length=255)
+    is_active = models.BooleanField()

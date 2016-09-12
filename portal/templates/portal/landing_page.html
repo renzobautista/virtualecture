@@ -1,0 +1,30 @@
+{% extends 'portal/base.html' %}
+
+{% block page_content %}
+<div class="jumbotron">
+    <h1>Virtualecture</h1>
+    <p>Stream and attend classes remotely.</p>
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h3>Sign up </h3>
+        <form action="{% url 'signup' %}" method="POST">
+            {% csrf_token %}
+            {% include 'portal/basic_form.html' with form=signup_form %}
+            <input type="submit" class="btn btn-primary" value="Sign up">
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h3>Login </h3>
+        <form action="{% url 'login' %}" method="POST">
+            {% if no_user_found %}
+                Username and password do not match.
+            {% endif %}
+            {% csrf_token %}
+            {% include 'portal/basic_form.html' with form=login_form %}
+            <input type="submit" class="btn btn-primary" value="Login">
+        </form>
+    </div>
+</div>
+{% endblock %}

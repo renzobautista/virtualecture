@@ -1,0 +1,27 @@
+{% extends 'portal/base.html' %}
+
+{% block page_content %}
+{% include 'portal/header.html' %}
+<div class="page-header">
+  <h3>Courses now streaming at {{ school }}</h3>
+</div>
+<div class="row">
+    {% if streams %}
+        {% for stream in streams %}
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ stream.course.course_number}}</h3>
+                        <p>{{ stream.course.course_name }}</p>
+                        <p><a href="{% url 'view_stream' stream.id %}" class="btn btn-primary" role="button">Go to class</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-sm-12">
+            <p>There are currently no courses available for viewing.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

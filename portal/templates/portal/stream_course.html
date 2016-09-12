@@ -1,0 +1,88 @@
+{% extends 'portal/base.html' %}
+
+{% block page_content %}
+{% include 'portal/header.html' %}
+<div class="page-header">
+    <h3>You are now streaming {{ stream.course.course_number }}</h3>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="vid-box"></div>
+        <div id="stream-info">Watching: <span id="here-now">0</span></div>
+        <button id="end" onclick="end()">Done</button> <br>
+    </div>
+</div>
+<script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
+<script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
+<script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        stream();
+    })
+    window.onbeforeunload = function() {
+        endStreamObject();
+    }
+    var video_out  = document.getElementById("vid-box");
+    var here_now   = document.getElementById('here-now');
+    var stream_info= document.getElementById('stream-info');
+    var end_stream = document.getElementById('end');
+    var streamName = "{{ stream.stream_key }}";
+    var ended = false;
+    function stream() {
+        var phone = window.phone = PHONE({
+            number        : streamName,
+            publish_key   : 'pub-c-6a77e612-56ad-4759-9c48-74c03cce88c6',
+            subscribe_key : 'sub-c-325dc3ea-787f-11e6-9abc-0619f8945a4f',
+            oneway        : true,
+            broadcast     : true
+        });
+        var ctrl = window.ctrl = CONTROLLER(phone);
+        ctrl.ready(function(){
+            ctrl.addLocalStream(video_out);
+            ctrl.stream();
+            stream_info.hidden=false;
+            end_stream.hidden =false;
+            addLog("Streaming to " + streamName); 
+            $('#vid-box video').css('display', 'block').css('margin', '0 auto');
+        });
+        ctrl.receive(function(session){
+            session.connected(function(session){ addLog(session.number + " has joined."); });
+            session.ended(function(session) { addLog(session.number + " has left."); console.log(session)});
+        });
+        ctrl.streamPresence(function(m){
+            here_now.innerHTML=m.occupancy;
+            addLog(m.occupancy + " currently watching.");
+        });
+    }
+    function getVideo(number){
+        return $('*[data-number="'+number+'"]');
+    }
+    function addLog(log){
+        $('#logs').append("<p>"+log+"</p>");
+    }
+    function end(){
+        if (!window.phone) return;
+        ctrl.hangup();
+        video_out.innerHTML = "<p>You have ended the stream.</p>";
+        video_out.setAttribute("style", "");
+        endStreamObject();
+    }
+    function endStreamObject() {
+        if (!ended) {
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'end_stream' stream.id %}'
+            });
+            ended = true;
+        }
+    }
+    function errWrap(fxn, form){
+        try {
+            return fxn(form);
+        } catch(err) {
+            alert("WebRTC is currently only supported by Chrome, Opera, and Firefox");
+            return false;
+        }
+    }
+</script>
+{% endblock %}

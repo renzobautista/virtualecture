@@ -1,0 +1,28 @@
+{% extends 'portal/base.html' %}
+
+{% block page_content %}
+{% include 'portal/header.html' %}
+<div class="page-header">
+    <h3>Courses you can stream</h3>
+</div>
+<div class="row">
+    {% if courses %}
+        {% for course in courses %}
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ course.course_number}}</h3>
+                        <p>{{ course.course_name }}</p>
+                        <p><a href="{% url 'stream_course' course.id %}" class="btn btn-primary" role="button">Stream</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-sm-12">
+            <p>You do not have permission to stream any courses.</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
