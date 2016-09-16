@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.http import Http404
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.crypto import get_random_string
 from forms import *
@@ -94,7 +95,7 @@ def view_stream(request, stream_id):
         stream = get_object_or_404(Stream, pk=stream_id)
         if stream.course.school != request.user.student.school:
             raise Http404
-        if not stream.is_active
+        if not stream.is_active:
             return redirect(reverse('home'))
         context['stream'] = stream
         return render(request, 'portal/view_course.html', context)
