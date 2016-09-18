@@ -2,8 +2,9 @@
 
 {% block page_content %}
 {% include 'portal/header.html' %}
+<div class="container">
 <div class="page-header">
-  <h3>Courses now streaming at {{ school }}</h3>
+  <h5>Courses now streaming at {{ school }}</h5>
 </div>
 <div class="row">
     {% if streams %}
@@ -23,5 +24,6 @@
             <p>There are currently no courses available for viewing.</p>
         </div>
     {% endif %}
+</div>
 </div>
 {% endblock %}
