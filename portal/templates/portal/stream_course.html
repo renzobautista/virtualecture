@@ -2,6 +2,7 @@
 
 {% block page_content %}
 {% include 'portal/header.html' %}
+<div class="container">
 <div class="page-header">
     <h3>You are now streaming {{ stream.course.course_number }}</h3>
 </div>
@@ -11,6 +12,7 @@
         <div id="stream-info">Watching: <span id="here-now">0</span></div>
         <button id="end" onclick="end()">Done</button> <br>
     </div>
+</div>
 </div>
 <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
