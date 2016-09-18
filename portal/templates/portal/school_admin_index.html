@@ -1,0 +1,49 @@
+{% extends 'portal/base.html' %}
+
+{% block page_content %}
+{% include 'portal/header.html' %}
+{% if notification %}
+<div class="alert alert-success">
+    <p>{{ notification }}</p>
+</div>
+{% endif %}
+<div class="page-header">
+  <h3>Administrator Portal for {{ school }}</h3>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% if professors %}
+            <h4>Professors</h4>
+            <ul>
+            {% for professor in professors %}
+                <li>
+                    {{ professor.user.username }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are currently no professors registered.</p>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% if professors_awaiting_approval %}
+            <h4>Professors awaiting approval</h4>
+            <ul>
+            {% for professor in professors_awaiting_approval %}
+                <li>
+                    {{ professor.user.username }}
+                    <form style="display:inline-block" action="{% url 'activate_professor' professor.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Approve account">
+                    </form>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are currently no professors awaiting approval.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

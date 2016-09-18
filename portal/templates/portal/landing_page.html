@@ -6,6 +6,11 @@
     <p>Stream and attend classes remotely.</p>
     <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
 </div>
+{% if professor_signed_up %}
+    <div class="alert alert-success">
+        <p>Your professor account is now awaiting approval.</p>
+    </div>
+{% endif %}
 <div class="row">
     <div class="col-md-4">
         <h3>Sign up </h3>
@@ -20,6 +25,9 @@
         <form action="{% url 'login' %}" method="POST">
             {% if no_user_found %}
                 Username and password do not match.
+            {% endif %}
+            {% if professor_inactive %}
+                Your professor account has not yet been activated.
             {% endif %}
             {% csrf_token %}
             {% include 'portal/basic_form.html' with form=login_form %}

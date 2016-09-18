@@ -1,0 +1,28 @@
+{% extends 'portal/base.html' %}
+
+{% block page_content %}
+{% include 'portal/header.html' %}
+{% if notification %}
+<div class="alert alert-success">
+    <p>{{ notification }}</p>
+</div>
+{% endif %}
+<div class="page-header">
+  <h3>Your Courses</h3>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% if courses %}
+            <ul>
+            {% for course in courses %}
+                <li>
+                    {{ course.course_number }} - {{ course.course_name }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>You currently have no courses.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

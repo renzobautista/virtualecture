@@ -6,7 +6,11 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'stream' %}">Stream a Course</a></li>
+                {% if request.user.student %}
+                    <li><a href="{% url 'stream' %}">Stream a Course</a></li>
+                {% elif request.user.professor %}
+                    <li><a href="{% url 'add_course' %}">Add a Course</a></li>
+                {% endif %}
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
         </div>

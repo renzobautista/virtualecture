@@ -1,0 +1,17 @@
+{% extends 'portal/base.html' %}
+
+{% block page_content %}
+{% include 'portal/header.html' %}
+<div class="page-header">
+  <h3>Add a course</h3>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form action="{% url 'add_course' %}" method="POST">
+            {% csrf_token %}
+            {% include 'portal/basic_form.html' with form=form %}
+            <input type="submit" value="Add course">
+        </form>
+    </div>
+</div>
+{% endblock %}
