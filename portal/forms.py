@@ -26,8 +26,11 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=150, widget=forms.PasswordInput)
 
 class CourseForm(forms.ModelForm):
-    tas = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-        label='Teaching Assistants', queryset=Student.objects.all())
+    tas = forms.ModelMultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'style': 'opacity:1;left:0;position:inherit'}),
+        label='Teaching Assistants',
+        queryset=None)
     class Meta:
         model = Course
         exclude = ('school', 'professor')

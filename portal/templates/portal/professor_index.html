@@ -8,7 +8,7 @@
 </div>
 {% endif %}
 <div class="page-header">
-  <h3>Your Courses</h3>
+    <h3>Your Courses</h3>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -16,7 +16,7 @@
             <ul>
             {% for course in courses %}
                 <li>
-                    {{ course.course_number }} - {{ course.course_name }}
+                    {{ course.course_number }} - {{ course.course_name }} <a href="{% url 'edit_course' course.id %}">Edit</a>
                 </li>
             {% endfor %}
             </ul>

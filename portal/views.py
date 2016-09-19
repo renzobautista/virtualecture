@@ -188,6 +188,40 @@ def add_course(request):
     else:
         raise Http404
 
+def edit_course(request, course_id):
+    context = {}
+    course = get_object_or_404(Course, pk=course_id)
+    context['course'] = course
+    if (request.user.is_authenticated() and hasattr(request.user, 'professor')
+        and course.professor == request.user.professor):
+        if request.method == 'GET':
+            form = CourseForm(instance=course)
+            form.fields['tas'].queryset = (
+                Student.objects.filter(school=request.user.professor.school))
+            form.fields['tas'].initial = course.tas.all()            
+            context['form'] = form
+            return render(request, 'portal/edit_course.html', context)
+        elif request.method == 'POST':
+            form = CourseForm(request.POST, instance=course)
+            form.fields['tas'].queryset = (
+                Student.objects.filter(school=request.user.professor.school))            
+            if not form.is_valid():
+                context['form'] = form
+                return render(request, 'portal/edit_course.html', context)
+            cd = form.cleaned_data
+            course = form.save()
+            course.tas.clear()
+            for ta in cd['tas']:
+                course.tas.add(ta)
+            course.save()
+            form.fields['tas'].initial = course.tas.all()            
+            context['course_saved'] = True
+            context['form'] = form
+            return render(request, 'portal/edit_course.html', context)
+        else:
+            raise Http404
+    else:
+        raise Http404
 
 
 
