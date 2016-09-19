@@ -4,7 +4,9 @@ from models import *
 
 class SignupForm(UserCreationForm):
     username = forms.EmailField(label='.edu Email')
-    is_professor = forms.BooleanField(label='I am a professor')
+    is_professor = forms.BooleanField(label='I am a professor',
+        widget=forms.CheckboxInput(
+            attrs={'style': 'opacity:1;left:0;position:inherit'}))
 
     def clean_username(self):
         if (self.cleaned_data['username'] is None):
