@@ -1,0 +1,36 @@
+{% extends 'portal/base.html' %}
+
+{% block page_content %}
+{% include 'portal/header.html' %}
+{% if notification %}
+<div class="alert alert-success">
+    <p>{{ notification }}</p>
+</div>
+{% endif %}
+<div class="container">
+<div class="page-header">
+    <h5>Your Courses</h5>
+</div>
+<div class="row">
+        {% if courses %}
+            {% for course in courses %}
+                <div class="col s4">
+                    <div class="card">
+                        <div class="card-content black-text">
+                            <span class="card-title"><h6>{{ course.course_number}}</h6></span>
+                            <p>{{ course.course_name }}</p>
+                            <div class="card-action"><a href="{% url 'edit_course' course.id %}" class="btn-floating light-blue accent-3 card-button" role="button"><i class="material-icons">mode_edit</i></a></div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col s4">
+            <a href="{% url 'add_course' %}" class="btn-floating btn-large light-blue accent-3 card-icon" role="button"><i class="material-icons">add</i></a>
+        </div>
+        {% else %}
+            <p>You currently have no courses.</p>
+        {% endif %}
+</div>
+</container>
+{% endblock %}

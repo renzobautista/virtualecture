@@ -9,18 +9,18 @@
 <div class="row">
     {% if streams %}
         {% for stream in streams %}
-            <div class="col-sm-6 col-md-3">
-                <div class="thumbnail">
-                    <div class="caption">
-                        <h3>{{ stream.course.course_number}}</h3>
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-content black-text">
+                        <span class="card-title"><h6>{{ stream.course.course_number}}</h6></span>
                         <p>{{ stream.course.course_name }}</p>
-                        <p><a href="{% url 'view_stream' stream.id %}" class="btn btn-primary" role="button">Go to class</a></p>
+                        <div class="card-action"><a href="{% url 'view_stream' stream.id %}" class="btn-floating light-blue accent-3" role="button"><i class="material-icons">visibility</i></a></div>
                     </div>
                 </div>
             </div>
         {% endfor %}
     {% else %}
-        <div class="col-sm-12">
+        <div class="col s12">
             <p>There are currently no courses available for viewing.</p>
         </div>
     {% endif %}

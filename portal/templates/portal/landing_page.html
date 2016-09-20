@@ -2,31 +2,86 @@
 
 {% block page_content %}
 <div class="container">
-<div class="jumbotron">
-    <h1>Virtualecture</h1>
-    <p>Stream and attend classes remotely.</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+    <div class="jumbotron">
+        <div class = "row">
+            <div class = "col s7 offset-s3">
+            <h1>V i r t u a l e c t u r e</h1>
+            <p>Stream and attend classes remotely.</p>
+            </div>
+        </div>
+    </div>
+
+    {% if professor_signed_up %}
+        <div class="alert alert-success">
+            <p>Your professor account is now awaiting approval.</p>
+        </div>
+    {% endif %}
+
+    <div class = "row">
+        <div class = "col s6">
+
+            <div class="card medium">
+                <div class="row">
+                    <div class="col s10 offset-s1">
+                        <br>
+                        <h4>Login </h4> <br>
+                        <form action="{% url 'login' %}" method="POST">
+                            {% if no_user_found %}
+                                Username and password do not match.
+                            {% endif %}
+                            {% if professor_inactive %}
+                                Your professor account has not yet been activated.
+                            {% endif %}
+                            {% csrf_token %}
+                            {% include 'portal/basic_form.html' with form=login_form %}
+                            <input type="submit" class="btn btn-primary light-blue accent-3" value="Login"> 
+                            <div class="sign_up_text">
+                                <a class="modal-trigger" data-target="signup-modal">Don't have an account?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class = "col s6">
+            <div class="card">
+                <div class="card-image">
+                     <img src="http://www.article-3.com/wp-content/uploads/2014/01/184498500.jpg">
+                </div>
+                <div class="card-action">
+                        <a href="#"> <h4> Learn more <h4> </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+<!-- <p><a class="btn btn-primary btn-lg light-blue accent-3" href="#" role="button">Learn more</a></p> -->
+
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <h3>Sign up </h3>
+
+  <div id="signup-modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h5>Sign up </h5>
         <form action="{% url 'signup' %}" method="POST">
             {% csrf_token %}
             {% include 'portal/basic_form.html' with form=signup_form %}
-            <input type="submit" class="btn btn-primary" value="Sign up">
-        </form>
     </div>
-    <div class="col-md-4">
-        <h3>Login </h3>
-        <form action="{% url 'login' %}" method="POST">
-            {% if no_user_found %}
-                Username and password do not match.
-            {% endif %}
-            {% csrf_token %}
-            {% include 'portal/basic_form.html' with form=login_form %}
-            <input type="submit" class="btn btn-primary" value="Login">
+        <div class="modal-footer">
+            <input type="submit" class="modal-action modal-close btn btn-primary light-blue accent-3" value="Sign up">
+        </div>
         </form>
-    </div>
-</div>
-</div>
+    
+  </div>
+
+<script>
+$(document).ready(function() {
+  $('.modal-trigger').leanModal();
+});
+</script>
+
+
 {% endblock %}
