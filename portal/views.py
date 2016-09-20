@@ -107,6 +107,9 @@ def stream_course(request, course_id):
         student = request.user.student
         if course not in student.ta_courses.all():
             raise Http404
+        if (Stream.objects.filter(
+            is_active=True, course=course, streamer=student).first()):
+            raise Http404
         key = get_random_string(length=32)
         while Stream.objects.filter(stream_key=key).first() is not None:
             key = get_random_string(length=32)
