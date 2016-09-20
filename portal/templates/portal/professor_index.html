@@ -9,27 +9,28 @@
 </div>
 {% endif %}
 <div class="page-header">
-    <h3>Your Courses</h3>
+    <h5>Your Courses</h5>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        {% if courses %}
-            <table class="table table-striped">
-            <tr>
-                <th>Course Number</th>
-                <th>Course Name</th>
-                <th></th>
-            </tr>
-            {% for course in courses %}
-                <tr>
-                    <td>{{ course.course_number }}</td><td>{{ course.course_name }}</td><td><a href="{% url 'edit_course' course.id %}">Edit</a></td>
-                </tr>
-            {% endfor %}
-            </table>
-        {% else %}
-            <p>You currently have no courses.</p>
-        {% endif %}
+    {% if courses %}
+        {% for course in courses %}
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-content black-text">
+                        <span class="card-title"><h6>{{ course.course_number}}</h6></span>
+                        <p>{{ course.course_name }}</p>
+                        <div class="card-action"><a href="{% url 'edit_course' course.id %}" class="btn-floating light-blue accent-3 card-button" role="button"><i class="material-icons">mode_edit</i></a></div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
+    <div class="col s4">
+        <a href="{% url 'add_course' %}" class="btn-floating btn-large light-blue accent-3 card-icon" role="button"><i class="material-icons">add</i></a>
+    </div>
+    {% else %}
+        <p>You currently have no courses.</p>
+    {% endif %}
 </div>
 </div>
 {% endblock %}
