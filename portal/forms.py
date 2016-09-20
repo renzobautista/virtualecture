@@ -6,7 +6,8 @@ class SignupForm(UserCreationForm):
     username = forms.EmailField(label='.edu Email')
     is_professor = forms.BooleanField(label='I am a professor',
         widget=forms.CheckboxInput(
-            attrs={'style': 'opacity:1;left:0;position:inherit'}))
+            attrs={'style': 'opacity:1;left:0;position:inherit'}),
+        required=False)
 
     def clean_username(self):
         if (self.cleaned_data['username'] is None):
