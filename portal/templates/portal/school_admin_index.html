@@ -5,9 +5,11 @@
 {% if notification %}
 {% endif %}
 <div class="container">
+{% if notification %}
 <div class="alert alert-success">
     <p>{{ notification }}</p>
 </div>
+{% endif %}
 <div class="page-header">
   <h5>Administrator Portal for {{ school }}</h5>
 </div>
@@ -27,7 +29,7 @@
                     </li>
                 {% endfor %}
             {% else %}
-                <p>There are currently no professors awaiting approval.</p>
+                <li>There are currently no professors awaiting approval.</li>
             {% endif %}
         </ul>
     </div>
@@ -63,10 +65,10 @@
                               </div>
 
                     {% endfor %}
-                </ul>
             {% else %}
-                <p>There are currently no professors registered.</p>
+                <li>There are currently no professors registered.</li>
             {% endif %}
+        </ul>
     </div>
 </div>
 
