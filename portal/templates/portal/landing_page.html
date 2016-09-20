@@ -1,12 +1,177 @@
 {% extends 'portal/base.html' %}
 
 {% block page_content %}
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand topnav" href="#">Virtualecture</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                      Login
+                    </button>
+                </ul>
+
+                <!-- Modal -->
+                   
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Login</h4>
+                          </div>
+                          <div class="modal-body">
+                                <form action="{% url 'login' %}" method="POST">
+                                    {% if no_user_found %}
+                                        Username and password do not match.
+                                    {% endif %}
+                                    {% if professor_inactive %}
+                                        Your professor account has not yet been activated.
+                                    {% endif %}
+                                    {% csrf_token %}
+                                    {% include 'portal/basic_form.html' with form=login_form %}
+                                    <input type="submit" class="btn btn-primary" value="Login">
+                                </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div> <!-- end modal -->
+
+    <!-- Header -->
+    <a name="about"></a>
+    <div class="intro-header">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Virtualecture</h1>
+                        <h3>Stream and attend classes remotely!</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="#" class="btn btn-default btn-lg"></i> <span class="learn">Learn More</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.intro-header -->
+
+    <!-- Page Content -->
+
+    <a  name="services"></a>
+    <div class="content-section-b">
+
+{% if professor_signed_up %}
+    <div class="alert alert-success">
+        <p>Your professor account is now awaiting approval.</p>
+    </div>
+{% endif %}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Not A Member Of Virtualecture?</h2><h5>Join Today!</h5>
+                    <p class="lead"> Sign up is safe, quick, and intuitive. All you need to do to succesfully sign up is have a valid CMU email, and create a password of your choosing. Once your done you can instantly begin streaming! </p>
+                
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                      Sign Up Now
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Sign up</h4>
+                          </div>
+                          <div class="modal-body">
+                                <form action="{% url 'signup' %}" method="POST">
+                                    {% csrf_token %}
+                                    {% include 'portal/basic_form.html' with form=signup_form %}
+                                    <input type="submit" class="btn btn-primary" value="Sign up">
+                                </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div> <!-- end modal -->
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Virtualecture. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+<!-- old code, in case new one doesn't work outs
+
 <div class="container">
-<div class="jumbotron">
-    <h1>Virtualecture</h1>
-    <p>Stream and attend classes remotely.</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-</div>
+
 {% if professor_signed_up %}
     <div class="alert alert-success">
         <p>Your professor account is now awaiting approval.</p>
@@ -36,5 +201,5 @@
         </form>
     </div>
 </div>
-</div>
+</div> -->
 {% endblock %}
