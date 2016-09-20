@@ -30,6 +30,10 @@ def home(request):
         context['login_form'] = LoginForm()
         return render(request, 'portal/landing_page.html', context)
 
+def about(request):
+    context = {}
+    return render(request, 'portal/about.html', context)
+    
 def signup(request):
     if request.method == 'POST':
         context = {}
