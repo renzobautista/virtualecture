@@ -1,6 +1,6 @@
 from portal.models import *
 
-cmu_admin = User.objects.create(username='cmu_admin@andrew.cmu.edu', password='carnegie123')
+cmu_admin = User.objects.create(username='cmuadmin@andrew.cmu.edu', password='carnegie123')
 cmu_admin.set_password('carnegie123')
 cmu_admin.save()
 cmu = School.objects.create(name="Carnegie Mellon University", email_handle="andrew.cmu.edu", admin_user=cmu_admin)

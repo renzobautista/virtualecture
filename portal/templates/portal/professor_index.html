@@ -2,6 +2,7 @@
 
 {% block page_content %}
 {% include 'portal/header.html' %}
+<div class="container">
 {% if notification %}
 <div class="alert alert-success">
     <p>{{ notification }}</p>
@@ -13,16 +14,22 @@
 <div class="row">
     <div class="col-md-12">
         {% if courses %}
-            <ul>
+            <table class="table table-striped">
+            <tr>
+                <th>Course Number</th>
+                <th>Course Name</th>
+                <th></th>
+            </tr>
             {% for course in courses %}
-                <li>
-                    {{ course.course_number }} - {{ course.course_name }} <a href="{% url 'edit_course' course.id %}">Edit</a>
-                </li>
+                <tr>
+                    <td>{{ course.course_number }}</td><td>{{ course.course_name }}</td><td><a href="{% url 'edit_course' course.id %}">Edit</a></td>
+                </tr>
             {% endfor %}
-            </ul>
+            </table>
         {% else %}
             <p>You currently have no courses.</p>
         {% endif %}
     </div>
+</div>
 </div>
 {% endblock %}

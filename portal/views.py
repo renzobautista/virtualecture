@@ -162,6 +162,23 @@ def activate_professor(request, professor_id):
     else:
         raise Http404
 
+def delete_professor(request, professor_id):
+    professor = get_object_or_404(Professor, pk=professor_id)
+    if (request.user.is_authenticated()
+        and professor.school == request.user.admin_school):
+        context = {}
+        context['notification'] = (
+            "Professor account for %s has been activated." 
+            % professor.user.username)
+        professor.delete()
+        context['professors'] = Professor.objects.filter(
+            school=request.user.admin_school, is_active=True)
+        context['professors_awaiting_approval'] = Professor.objects.filter(
+            school=request.user.admin_school, is_active=False)
+        return render(request, 'portal/school_admin_index.html', context)
+    else:
+        raise Http404
+
 def add_course(request):
     context = {}
     if (request.user.is_authenticated() and hasattr(request.user, 'professor')):

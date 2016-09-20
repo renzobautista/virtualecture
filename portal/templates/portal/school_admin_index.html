@@ -2,6 +2,7 @@
 
 {% block page_content %}
 {% include 'portal/header.html' %}
+<div class="container">
 {% if notification %}
 <div class="alert alert-success">
     <p>{{ notification }}</p>
@@ -13,14 +14,20 @@
 <div class="row">
     <div class="col-md-12">
         {% if professors %}
-            <h4>Professors</h4>
-            <ul>
+            <h5>Professors</h5>
+            <table class="table table-striped">
             {% for professor in professors %}
-                <li>
-                    {{ professor.user.username }}
-                </li>
+                <tr>
+                    <td>{{ professor.user.username }}</td>
+                    <td>
+                        <form style="display:inline-block" action="{% url 'delete_professor' professor.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Remove">
+                        </form>
+                    </td>
+                </tr>
             {% endfor %}
-            </ul>
+            </table>
         {% else %}
             <p>There are currently no professors registered.</p>
         {% endif %}
@@ -29,21 +36,24 @@
 <div class="row">
     <div class="col-md-12">
         {% if professors_awaiting_approval %}
-            <h4>Professors awaiting approval</h4>
-            <ul>
+            <h5>Professors awaiting approval</h5>
+            <table class="table table-striped">
             {% for professor in professors_awaiting_approval %}
-                <li>
-                    {{ professor.user.username }}
-                    <form style="display:inline-block" action="{% url 'activate_professor' professor.id %}" method="POST">
-                        {% csrf_token %}
-                        <input type="submit" value="Approve account">
-                    </form>
-                </li>
+                <tr>
+                    <td>{{ professor.user.username }}</td>
+                    <td>
+                        <form style="display:inline-block" action="{% url 'activate_professor' professor.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Approve">
+                        </form>
+                    </td>
+                </tr>
             {% endfor %}
-            </ul>
+            </table>
         {% else %}
             <p>There are currently no professors awaiting approval.</p>
         {% endif %}
     </div>
+</div>
 </div>
 {% endblock %}

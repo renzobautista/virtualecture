@@ -2,6 +2,7 @@
 
 {% block page_content %}
 {% include 'portal/header.html' %}
+<div class="container">
 {% if course_saved %}
     <div class="alert alert-success">
         <p>"{{ course.course_number }} - {{ course.course_name }}" was saved successfully.</p>
@@ -18,5 +19,6 @@
             <input type="submit" value="Edit course">
         </form>
     </div>
+</div>
 </div>
 {% endblock %}
