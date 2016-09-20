@@ -2,58 +2,81 @@
 
 {% block page_content %}
 {% include 'portal/header.html' %}
-<div class="container">
 {% if notification %}
+{% endif %}
+<div class="container">
 <div class="alert alert-success">
     <p>{{ notification }}</p>
 </div>
-{% endif %}
 <div class="page-header">
-  <h3>Administrator Portal for {{ school }}</h3>
+  <h5>Administrator Portal for {{ school }}</h5>
 </div>
+
 <div class="row">
-    <div class="col-md-12">
-        {% if professors %}
-            <h5>Professors</h5>
-            <table class="table table-striped">
-            {% for professor in professors %}
-                <tr>
-                    <td>{{ professor.user.username }}</td>
-                    <td>
-                        <form style="display:inline-block" action="{% url 'delete_professor' professor.id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" value="Remove">
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-            </table>
-        {% else %}
-            <p>There are currently no professors registered.</p>
-        {% endif %}
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        {% if professors_awaiting_approval %}
-            <h5>Professors awaiting approval</h5>
-            <table class="table table-striped">
-            {% for professor in professors_awaiting_approval %}
-                <tr>
-                    <td>{{ professor.user.username }}</td>
-                    <td>
+    <div class="col s6">
+        <ul class="collection with-header">
+            <li class="collection-header"><h4>Pending Professors</h4></li>
+            {% if professors_awaiting_approval %}
+                {% for professor in professors_awaiting_approval %}
+                    <li class="collection-item">
+                        {{ professor.user.username }}
                         <form style="display:inline-block" action="{% url 'activate_professor' professor.id %}" method="POST">
                             {% csrf_token %}
-                            <input type="submit" value="Approve">
+                            <input type="submit" class="btn btn-primary light-blue accent-3" value="Approve account">
                         </form>
-                    </td>
-                </tr>
-            {% endfor %}
-            </table>
-        {% else %}
-            <p>There are currently no professors awaiting approval.</p>
-        {% endif %}
+                    </li>
+                {% endfor %}
+            {% else %}
+                <p>There are currently no professors awaiting approval.</p>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col s6">
+        <ul class="collection with-header">
+            {% if professors %}
+                <li class="collection-header"><h4>Registered Professors</h4></li>
+                    {% for professor in professors %}
+                        <li class="collection-item"><div>
+                            {{ professor.user.username }}
+                        <a class = "modal-trigger secondary-content" href="#profmodal"><i class="material-icons">info</i></a></div></li>
+
+                            <div id="profmodal" class="modal">
+                                <div class="modal-content">
+                                    <h4>{{professor.user.username}}</h4>
+                                    <ul class="collection">
+                                        <li class = "collection-item">
+                                            {% for course in professor.course_set.all %}
+                                                {% if course.professor == professor %}
+                                                    {{course.course_name}}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </li>
+                                    </ul>
+                                    <form style="display:inline-block" action="{% url 'delete_professor' professor.id %}" method="POST">
+                                       {% csrf_token %}
+                                        <input type="submit" value="Remove">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <a href="#!" class=" modal-action modal-close btn-flat">Close</a>
+                                </div>
+                              </div>
+
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>There are currently no professors registered.</p>
+            {% endif %}
     </div>
 </div>
+
+
+
 </div>
+
+<script>
+$(document).ready(function() {
+  $('.modal-trigger').leanModal();
+});
+</script>
 {% endblock %}

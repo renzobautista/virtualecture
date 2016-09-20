@@ -1,12 +1,76 @@
+html {
+    font-family: GillSans, Calibri, Trebuchet, sans-serif;
+  }
+
+body {
+   
+    font-family: "Roboto";
+    font-weight: 300;
+}
+
+h1 {
+	font-weight: 200;
+	text-align: center;
+}
+
+h4 {
+	font-weight: 300;
+	text-align: center;
+}
+
+h6{
+	font-size:15pt;
+}
+
+p{
+	text-align: center;
+}
+
+nav ul a{
+	color:white !important;
+}
 
 .brand-logo a{
-	color:black;
+	color:white;
 	text-decoration:none;
 }
 
-.nav-content{
+.button-text{
+	color:black !important;
+}
+.navbar{
+	background-color:#f44336;
+}
+
+.container{
+	margin-top:50px;
+}
+
+.page-header h5{
+	font-weight:600;
+}
+
+.brand-logo a{
+	font-weight:bold;
+}
+
+.btn-large i{
+	font-size:2.5rem;
+}
+
+.card-button{ 
+
+}
+
+.card-action{
+	padding:10px 0px 0px 0px !important;
+}
+
+
+.sign_up_text a{
 	position:relative;
-	top:18px;
+	top:10px;
+	font-size:12px;
 }
 
 body,
@@ -172,4 +236,12 @@ footer {
 
 p.copyright {
     margin: 15px 0 0;
+
+.modal{
+	max-height:90% !important;
+	height:90% !important;
+}
+
+#signup-modal{
+	top:5% !important;
 }

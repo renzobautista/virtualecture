@@ -9,14 +9,14 @@
     </div>
 {% endif %}
 <div class="page-header">
-  <h3>Edit course</h3>
+  <h5>Edit course</h5>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col s12">
         <form action="{% url 'edit_course' course.id %}" method="POST">
             {% csrf_token %}
             {% include 'portal/basic_form.html' with form=form %}
-            <input type="submit" value="Edit course">
+            <input type="submit" class="btn btn-primary light-blue accent-3" value="Submit edit">
         </form>
     </div>
 </div>

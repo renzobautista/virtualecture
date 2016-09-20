@@ -4,13 +4,13 @@
 {% include 'portal/header.html' %}
 <div class="container">
 <div class="page-header">
-    <h3>You are now streaming {{ stream.course.course_number }}</h3>
+    <h5>You are now streaming {{ stream.course.course_number }}</h5>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col s12">
         <div id="vid-box"></div>
         <div id="stream-info">Watching: <span id="here-now">0</span></div>
-        <button id="end" onclick="end()">Done</button> <br>
+        <button id="end" class="btn btn-primary light-blue accent-3" onclick="end()">Done</button> <br>
     </div>
 </div>
 </div>
@@ -68,6 +68,7 @@
         video_out.innerHTML = "<p>You have ended the stream.</p>";
         video_out.setAttribute("style", "");
         endStreamObject();
+        window.location.href = "{% url 'home' %}";
     }
     function endStreamObject() {
         if (!ended) {
