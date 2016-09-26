@@ -151,4 +151,20 @@
             </div>
         </div>
     </footer>
+{% if no_user_found %}
+<script>
+    $(document).ready(function() {
+        $('#loginModal').modal('show');
+    })
+</script>
+{% endif %}
+
+{% if signup_form.errors %}
+<script>
+    $(document).ready(function() {
+        $('#myModal').modal('show');
+    })
+</script>
+{% endif %}
+
 {% endblock %}
