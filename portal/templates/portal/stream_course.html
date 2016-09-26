@@ -68,7 +68,6 @@
         video_out.innerHTML = "<p>You have ended the stream.</p>";
         video_out.setAttribute("style", "");
         endStreamObject();
-        window.location.href = "{% url 'home' %}";
     }
     function endStreamObject() {
         if (!ended) {
