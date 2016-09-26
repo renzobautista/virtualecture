@@ -33,6 +33,10 @@ def home(request):
 def about(request):
     context = {}
     return render(request, 'portal/about.html', context)
+
+def contact(request):
+    context = {}
+    return render(request, 'portal/contact.html', context)
     
 def signup(request):
     if request.method == 'POST':

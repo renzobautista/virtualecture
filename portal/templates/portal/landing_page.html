@@ -12,7 +12,7 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                         <h1>Virtualecture</h1>
-                        <h3>Stream and attend classes remotely!</h3>
+                        <h4>Stream and attend classes remotely!</h4>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li>
@@ -32,7 +32,7 @@
     <!-- Page Content -->
 
     <a  name="services"></a>
-    <div class="content-section-b">
+    <div class="content-section-c">
 
 {% if professor_signed_up %}
     <div class="alert alert-success">
@@ -74,29 +74,6 @@
         <!-- /.container -->
 
     </div>
+{% include 'portal/landing_footer.html' %}
 
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="list-inline">
-                        <li>
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#contact">Contact</a>
-                        </li>
-                    </ul>
-                    <p class="copyright text-muted small">Copyright &copy; Virtualecture. All Rights Reserved</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 {% endblock %}
