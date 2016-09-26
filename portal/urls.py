@@ -16,4 +16,7 @@ urlpatterns = [
     url(r'^delete_professor/(?P<professor_id>\d+)$', views.delete_professor, name='delete_professor'),
     url(r'^add_course$', views.add_course, name='add_course'),
     url(r'^edit_course/(?P<course_id>\d+)$', views.edit_course, name='edit_course'),
+    url(r'^courses$', views.courses, name='courses'),
+    url(r'^subscription/(?P<course_id>\d+)$', views.subscription, name='subscription'),
+    url(r'^recommend$', views.recommend, name='recommend'),
 ]

@@ -28,6 +28,8 @@ class Student(models.Model):
                                 related_name='student')
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     ta_courses = models.ManyToManyField(Course, related_name='tas')
+    subscriptions = models.ManyToManyField(Course, related_name='subscribers')
+    allowed_courses = models.ManyToManyField(Course, related_name='roster')
 
     def __unicode__(self):
         return self.user.username
@@ -37,3 +39,8 @@ class Stream(models.Model):
     streamer = models.ForeignKey(Student, on_delete=models.CASCADE)
     stream_key = models.CharField(max_length=255)
     is_active = models.BooleanField()
+
+class CourseRecommendation(models.Model):
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    course_number = models.CharField(max_length=255)
+    num_recommendations = models.IntegerField(default=0)

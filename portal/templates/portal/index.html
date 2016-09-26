@@ -3,6 +3,26 @@
 {% block page_content %}
 {% include 'portal/header.html' %}
 <div class="container">
+
+{% if subscription_streams %}
+<div class="page-header">
+  <h5>Your Subscriptions</h5>
+</div>
+<div class="row">
+    {% for stream in subscription_streams %}
+        <div class="col s4">
+            <div class="card">
+                <div class="card-content black-text">
+                    <span class="card-title"><h6>{{ stream.course.course_number}}</h6></span>
+                    <p>{{ stream.course.course_name }}</p>
+                    <div class="card-action"><a href="{% url 'view_stream' stream.id %}" class="btn-floating light-blue accent-3" role="button"><i class="material-icons">visibility</i></a></div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <div class="page-header">
   <h5>Courses now streaming at {{ school }}</h5>
 </div>

@@ -16,6 +16,8 @@
                 <li><a href="{% url 'home' %}">Home</a></li>
                 {% if request.user.student %}
                     <li><a href="{% url 'stream' %}">Stream a Course</a></li>
+                    <li><a href="{% url 'courses' %}">Courses</a></li>
+                    <li><a href="{% url 'recommend' %}">Recommend a Course</a></li>
                 {% elif request.user.professor %}
                     <li><a href="{% url 'add_course' %}">Add a Course</a></li>
                 {% endif %}

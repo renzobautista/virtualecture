@@ -32,8 +32,18 @@ class CourseForm(forms.ModelForm):
             attrs={'style': 'opacity:1;left:0;position:inherit'}),
         label='Teaching Assistants',
         queryset=None)
+
+    roster = forms.ModelMultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'style': 'opacity:1;left:0;position:inherit'}),
+        label='Class Roster',
+        queryset=None)
+
     class Meta:
         model = Course
         exclude = ('school', 'professor')
     def clean_tas(self):
         return self.cleaned_data['tas']
+
+class CourseRecommendationForm(forms.Form):
+    course_num = forms.CharField(max_length=150, label='Course Number')

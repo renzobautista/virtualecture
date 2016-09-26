@@ -16,22 +16,32 @@
 
 <div class="row">
     <div class="col s6">
-        <ul class="collection with-header">
-            <li class="collection-header"><h4>Pending Professors</h4></li>
+        <div class="collection">
+            <h4>Pending Professors</h4>
             {% if professors_awaiting_approval %}
+                <table class="table table-striped">
+                <tr>
+                    <th>E-mail</th>
+                    <th>Approve</th>
+                </tr>
                 {% for professor in professors_awaiting_approval %}
-                    <li class="collection-item">
-                        {{ professor.user.username }}
-                        <form style="display:inline-block" action="{% url 'activate_professor' professor.id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary light-blue accent-3" value="Approve account">
-                        </form>
-                    </li>
+                    <tr>
+                        <td>
+                            {{ professor.user.username }}
+                        </td>
+                        <td>
+                            <form style="display:inline-block" action="{% url 'activate_professor' professor.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Approve account">
+                            </form>
+                        </td>
+                    </tr>
                 {% endfor %}
+                </table>
             {% else %}
                 <li>There are currently no professors awaiting approval.</li>
             {% endif %}
-        </ul>
+        </div>
     </div>
     <div class="col s6">
         <ul class="collection with-header">
@@ -72,7 +82,25 @@
     </div>
 </div>
 
-
+<div class="row">
+    <div class="col m6">
+    <div class="collection">
+        <h4>Course Requests</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Course number</th>
+                <th>Recommendations</th>
+            </tr>
+            {% for recommendation in recommendations %}
+                <tr>
+                    <td>{{ recommendation.course_number }}</td>
+                    <td>{{ recommendation.num_recommendations }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </div>
+</div>
 
 </div>
 

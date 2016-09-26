@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.http.response import HttpResponse
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.crypto import get_random_string
 from forms import *
@@ -15,6 +16,9 @@ def home(request):
                 school=request.user.admin_school, is_active=True)
             context['professors_awaiting_approval'] = Professor.objects.filter(
                 school=request.user.admin_school, is_active=False)
+            context['recommendations'] = (CourseRecommendation.objects
+                .filter(school=request.user.admin_school)
+                .order_by('-num_recommendations'))
             return render(request, 'portal/school_admin_index.html', context)
         elif hasattr(request.user, 'professor'):
             context['school'] = request.user.professor.school.name
@@ -23,7 +27,16 @@ def home(request):
             return render(request, 'portal/professor_index.html', context)
         elif hasattr(request.user, 'student'):
             context['school'] = request.user.student.school.name
-            context['streams'] = Stream.objects.filter(is_active=True)
+            streams = Stream.objects.filter(
+                is_active=True, course__school=request.user.student.school)
+            streams = streams.filter(
+                Q(course__roster__in=[request.user.student])
+              | Q(course__roster=None))
+            subscription_streams = Stream.objects.filter(
+                is_active=True, course__school=request.user.student.school,
+                course__in=request.user.student.subscriptions.all())
+            context['streams'] = streams
+            context['subscription_streams'] = subscription_streams
             return render(request, 'portal/index.html', context)
     else:
         context['signup_form'] = SignupForm()
@@ -189,11 +202,15 @@ def add_course(request):
             form = CourseForm()
             form.fields['tas'].queryset = (
                 Student.objects.filter(school=request.user.professor.school))            
+            form.fields['roster'].queryset = (
+                Student.objects.filter(school=request.user.professor.school))            
             context['form'] = form
             return render(request, 'portal/add_course.html', context)
         elif request.method == 'POST':
             form = CourseForm(request.POST)
             form.fields['tas'].queryset = (
+                Student.objects.filter(school=request.user.professor.school))            
+            form.fields['roster'].queryset = (
                 Student.objects.filter(school=request.user.professor.school))            
             if not form.is_valid():
                 context['form'] = form
@@ -205,6 +222,8 @@ def add_course(request):
             course.save()
             for ta in cd['tas']:
                 course.tas.add(ta)
+            for student in cd['roster']:
+                course.roster.add(student)
             course.save()
             return redirect(reverse('home'))
         else:
@@ -223,22 +242,31 @@ def edit_course(request, course_id):
             form.fields['tas'].queryset = (
                 Student.objects.filter(school=request.user.professor.school))
             form.fields['tas'].initial = course.tas.all()            
+            form.fields['roster'].queryset = (
+                Student.objects.filter(school=request.user.professor.school))
+            form.fields['roster'].initial = course.roster.all()            
             context['form'] = form
             return render(request, 'portal/edit_course.html', context)
         elif request.method == 'POST':
             form = CourseForm(request.POST, instance=course)
             form.fields['tas'].queryset = (
                 Student.objects.filter(school=request.user.professor.school))            
+            form.fields['roster'].queryset = (
+                Student.objects.filter(school=request.user.professor.school))
             if not form.is_valid():
                 context['form'] = form
                 return render(request, 'portal/edit_course.html', context)
             cd = form.cleaned_data
             course = form.save()
             course.tas.clear()
+            course.roster.clear()
             for ta in cd['tas']:
                 course.tas.add(ta)
+            for student in cd['roster']:
+                course.roster.add(student)
             course.save()
             form.fields['tas'].initial = course.tas.all()            
+            form.fields['roster'].initial = course.roster.all()            
             context['course_saved'] = True
             context['form'] = form
             return render(request, 'portal/edit_course.html', context)
@@ -247,9 +275,73 @@ def edit_course(request, course_id):
     else:
         raise Http404
 
+def courses(request):
+    context = {}
+    if (request.user.is_authenticated() and hasattr(request.user, 'student')):
+        courses = Course.objects.filter(school=request.user.student.school)
+        courses = courses.filter(
+            Q(roster__in=[request.user.student])
+          | Q(roster=None))
+        course_list = []
+        for course in courses:
+            if course in request.user.student.subscriptions.all():
+                course_list.append((course, True))
+            else:
+                course_list.append((course, False))
+        context['courses'] = course_list
+        context['school'] = request.user.student.school.name
+        return render(request, 'portal/courses.html', context)
+    else:
+        raise Http404
 
+def subscription(request, course_id):
+    context = {}
+    course = get_object_or_404(Course, pk=course_id)
+    context['course'] = course
+    if (request.user.is_authenticated() and hasattr(request.user, 'student')
+        and course.school == request.user.student.school):
+        if course in request.user.student.subscriptions.all():
+            request.user.student.subscriptions.remove(course)
+        else:
+            request.user.student.subscriptions.add(course)
+        return redirect(reverse('courses'))
+    else:
+        raise Http404
 
-
+def recommend(request):
+    context = {}
+    if (request.user.is_authenticated() and hasattr(request.user, 'student')):
+        if request.method == 'GET':
+            context['form'] = CourseRecommendationForm()
+            return render(request, 'portal/recommend.html', context)
+        elif request.method == 'POST':
+            form = CourseRecommendationForm(request.POST)
+            if not form.is_valid():
+                context['form'] = form
+                return render(request, 'portal/recommend.html', context)
+            else:
+                course_num = form.cleaned_data['course_num']
+                if (CourseRecommendation.objects
+                    .filter(course_number=course_num,
+                        school=request.user.student.school)
+                    .exists()):
+                    rec = CourseRecommendation.objects.get(
+                        course_number=course_num,
+                        school=request.user.student.school)
+                    rec.num_recommendations = rec.num_recommendations + 1
+                    rec.save()
+                else:
+                    rec = CourseRecommendation.objects.create(
+                        course_number=course_num,
+                        num_recommendations=1,
+                        school=request.user.student.school)
+                context['notification'] = "Thank you for your recommendation."
+                context['form'] = CourseRecommendationForm
+                return render(request, 'portal/recommend.html', context)
+        else:
+            raise Http404
+    else:
+        raise Http404
 
 
 
