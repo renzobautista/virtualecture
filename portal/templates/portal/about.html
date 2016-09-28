@@ -1,5 +1,131 @@
 {% extends 'portal/base.html' %}
 
 {% block page_content %}
+{% include 'portal/landing_header.html' %}
+<!-- Services Section -->
+
+ 
+    <section id="services">
+
+       <div class="content-section-b">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading" style="color:black">What is Virtualecture?</h2>
+                    <img class="img-circle img-responsive" src="../static/portal/images/classroom1.png" alt="">
+                    <p class="section-subheading">
+                    Students in colleges spend over a hundred dollars on each lecture they are enrolled in. However, too often, real life gets in the way of attending class. Missing class for various reasons also poses an additional burden to instructors. Being able to remotely attend lectures would allow students  to maximize their college education, while  allowing professors to effortlessly ensure that more students are caught up in class. That is where Virtualecture comes in! Through our lecture streaming services, we enable our members to: </p>
+                </div>
+            </div>
+        </div>
+       </div>
+
+                
+                 
+        <div class="content-section-a">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-money fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Stop Wasting Money</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Learn More</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-calendar fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Gain Schedule Flexibility</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">The Team</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="team">
+                        <li>
+                            <div class="team-image">
+                                <img class="img-circle img-responsive" src="..." alt="">
+                            </div>
+                            <div class="team-panel">
+                                <div class="team-heading">
+                                    <h4>Renzo Bautista</h4>
+                                    <h5 class="subheading" style="color:#73B2B2">Tech Lead</h5>
+                                </div>
+                                <div class="team-body">
+                                    <p class="text-muted">As tech lead, Renzo is responsible for establishing clear, concise coding standards that code needs to adhere to. He delegates technical tasks, and lead the team in using new technologies. He has taken numerous intensive tech heavy courses and spent the summer as a software developer at Google.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="team-inverted">
+                            <div class="team-image">
+                                <img class="img-circle img-responsive" src="..." alt="">
+                            </div>
+                            <div class="team-panel">
+                                <div class="team-heading">
+                                    <h4>Anne Lueh</h4>
+                                    <h5 class="subheading" style="color:#73B2B2">Project Manager</h5>
+                                </div>
+                                <div class="team-body">
+                                    <p class="text-muted">Anne is responsible for creating meeting agendas, taking notes, and tracking action items for each team member. She identifies any gaps in delivery of previous action items and work with team members to rectify gaps during each meeting. She was PM for the 67-373 project and spent the summer monitoring 5 different teams at PNC.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="team-image">
+                                <img class="img-circle img-responsive" src="..." alt="">
+                            </div>
+                            <div class="team-panel">
+                                <div class="team-heading" >
+                                    <h4>Brad Chin</h4>
+                                    <h5 class="subheading" style="color:#73B2B2">Needs Input</h5>
+                                </div>
+                                <div class="team-body">
+                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="team-inverted">
+                            <div class="team-image">
+                                <img class="img-circle img-responsive" src="..." alt="">
+                            </div>
+                            <div class="team-panel">
+                                <div class="team-heading">
+                                    <h4>Chiamaka Nnebe</h4>
+                                    <h5 class="subheading" style="color:#73B2B2">Design Lead</h5>
+                                </div>
+                                <div class="team-body">
+                                    <p class="text-muted">Chiamaka is responsible for the overall conceptualization and design of the project. She draws out wireframes and works with the team to comply with the outlines. For the 67-373 project she also acted as design lead.</p>
+                                </div>
+                            </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div> <!-- container a section end-->
+    </section>
+
+    {% include 'portal/landing_footer.html' %}
 
 {% endblock %}
